@@ -8,8 +8,15 @@ let Item = require('../models/item');
 router.get('/', (req, res) => {
   Item.find({}, function(err, items){
     res.status(err ? 400 : 200).send(err || items);
-  });
+  }).populate('items');
 });
+
+// .populate()
+// .sort()
+// .limit()
+// .select()
+// .where()
+
 
 router.get('/:id', (req, res) => {
   Item.findById(req.params.id, function(err, item){

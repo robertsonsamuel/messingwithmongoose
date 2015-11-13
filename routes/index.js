@@ -7,4 +7,10 @@ router.get('/', function(req, res) {
   res.render("index");
 });
 
+router.post('/', function(req, res) {
+  // console.log(req.query);
+  res.send(req.query);
+});
+
+
 module.exports = router;
