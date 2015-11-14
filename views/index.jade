@@ -2,12 +2,59 @@ doctype html
 html(lang="en")
   head
     title Home
-    link(href="bower_components/bootstrap/dist/css/bootstrap.min.css")
-    link(href="css/style.css")
+    link(href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel='stylesheet') 
+    link(href="css/style.css", rel='stylesheet')
   body
     .container
       br
       .jumbotron
-        h1 Hey!
+        h1 Home Inventory
+        a(id="AddRoomButton",href="#", data-toggle="modal", data-target="#addRoomModal").btn.btn-success Add Room
+
+      table.table
+        tbody
+        each room in rooms
+          .col-xs-12.col-sm-12.col-md-12.col-lg-12(data-mongoRoomId="#{room._id}")
+           #accordion.panel-group
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle='collapse', data-parent='accordion', href='##{room.name}')
+                      | #{room.name}
+                div(id="#{room.name}").panel-collapse.collapse
+                  .panel-body
+                    each item in room.items
+                      ul
+                        li(data-mongoItemID="#{item._id}")=item.name
+                    br
+                    button#editButton.btn.btn-success Add Item
+                    button#editButton.btn.btn-success Edit Items
+                    button#deleteButton.btn.btn-danger Delete Item
+
+      #addRoomModal.modal.fade.addRoomModal(tabindex='-1', role='dialog', aria-labelledby='addRoomModal', aria-hidden='true')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true')
+                span.glyphicon.glyphicon-remove(aria-hidden='true')
+              h4#Heading.modal-title.custom_align Edit Your Room and Item
+            .modal-body
+              .form-group
+                input.form-control(type='text', placeholder='Room Name', id="modalNameEdit")
+              .form-group
+                input.form-control(type='text', placeholder='Item Name', id="modalItemNameEdit")
+              .form-group
+                input.form-control(type='text', placeholder='Item Value', id="modalValueEdit")
+              .form-group
+                input.form-control(type='text', placeholder='Item Description', id="modalDescripEdit")
+            .modal-footer
+              button.btn.btn-warning.btn-lg(type='button', style='width: 100%;', id="createButton")
+                span.glyphicon.glyphicon-ok-sign
+                |  Create
+          // /.modal-content
+        // /.modal-dialog
+
     script(src='bower_components/jquery/dist/jquery.min.js')
+    script(src='bower_components/bootstrap/dist/js/bootstrap.min.js')
     script(src='js/main.js')
+

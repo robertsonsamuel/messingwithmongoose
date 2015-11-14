@@ -1,3 +1,4 @@
+/* globals $: false , console:false , module:false , require:false*/
 'use strict';
 
 let express = require('express');
@@ -7,14 +8,11 @@ let Room = require('../models/room');
 let Item = require('../models/item');
 
 router.get('/', (req, res) => {
-
-  // Room.find({}).populate('items').exec(function(err, rooms){
-  //   res.status(err ? 400 : 200).send(err || rooms);
-  // });
-
   Room.find({}, function(err, rooms){
-    res.status(err ? 400 : 200).send(err || rooms);
-  }).populate('items');
+    console.log(rooms);
+    res.status(err ? 400 : 200);
+    res.send(err || rooms);
+  });
 
 });
 
@@ -54,10 +52,21 @@ router.delete('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  let room = new Room(req.body);
-  room.save(err => {
-    res.status(err ? 400 : 200).send(err || `${req.body.name} added.`);
+  console.log(req.body.item)
+  let room = new Room(req.body.room);
+  let item = new Item(req.body.item);
+  console.log("item:",  item, "\n room:", room)
+  // room.items.push(item);
+  room.items.push(item._id);
+  // console.log(room);
+
+  item.save((err, savedItem)=>{
+    err ? res.status(400).send(item) : console.log(savedItem);
   });
-});
+  room.save((err, savedRoom) => {
+   //res.status(err ? 400 : 200).send(err || savedRoom);
+    });
+  
+  });
 
 module.exports = router;

@@ -1,3 +1,4 @@
+/* globals $: false , console:false , module:false , require:false*/
 'use strict';
 
 let express = require('express');

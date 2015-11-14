@@ -1,3 +1,4 @@
+/* globals $: false , console:false , module:false , require:false*/
 'use strict';
 
 var PORT = process.env.PORT || 3000;
@@ -9,7 +10,7 @@ var morgan = require('morgan');
 var app = express();
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/inventoryManager')
+mongoose.connect('mongodb://localhost/inventoryManager');
 
 app.set('view engine', 'jade');
 
@@ -26,8 +27,8 @@ app.use('/rooms', require('./routes/rooms'));
 
 // 404 HANDLER
 app.use(function(req, res){
-  res.status(404).render('404')
-})
+  res.status(404).render('404');
+});
 
 app.listen(PORT, function(){
   console.log('Listening on port ', PORT);
